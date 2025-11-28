@@ -1,0 +1,19 @@
+
+services:
+  app:
+    build: .
+    container_name: project_2
+    ports:
+      - "3000:3000"
+    environment:
+      - NODE_ENV=development
+      - DATABASE_URL=${DATABASE_URL}
+      - JWT_SECRET=${JWT_SECRET}
+      - API_KEY=${API_KEY}
+    env_file:
+      - .env
+    restart: unless-stopped
+
+
+
+
