@@ -1,4 +1,4 @@
-import { Controller, Param, UseGuards } from '@nestjs/common';
+import { Controller, Param, ParseIntPipe, UseGuards } from '@nestjs/common';
 import { Get, Post, Body, Patch } from '@nestjs/common';
 import { AuthGuard } from 'src/auth/auth.guard';
 import { CustomerService } from './customer.service';
@@ -30,7 +30,7 @@ createCustomer(@Body() custData: CustomerDTO){
 @UseGuards(RoleGuard)
 @Roles('WAITER')
 @Patch(':id')
-updateCustomer(@Param('id') id: number, @Body() updateData: Partial<CustomerDTO>)
+updateCustomer(@Param('id', ParseIntPipe) id: number, @Body() updateData: Partial<CustomerDTO>)
 {
     return this.customerService.updateCustomer(id, updateData)
     
