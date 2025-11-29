@@ -1,102 +1,82 @@
-# NestJS Cats API Project<p align="center">
+# Restaurant Management System (RMS)
 
-<a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+<p align="center">
+  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="120" alt="Nest Logo" /></a>
+</p>
 
-A robust RESTful API built with NestJS, TypeScript, and Prisma ORM, featuring JWT authentication, PostgreSQL database integration, and Docker containerization.</p>
+A comprehensive Restaurant Management System API built with NestJS, TypeScript, and Prisma ORM. This system features JWT authentication, role-based access control, and PostgreSQL database integration for managing restaurant operations including tables, customers, and staff.
 
-## 🚀 Features[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
+## 🚀 Features
 
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+- **RESTful API** with CRUD operations for restaurant management
+- **JWT Authentication** with secure login/register endpoints
+- **Role-Based Access Control** (Admin, Waiter, Chef, Cashier)
+- **Table Management** - Track table availability, capacity, and reservations
+- **Customer Management** - Store customer information and contact details
+- **User Management** - Manage staff with different roles
+- **PostgreSQL Database** with Prisma ORM
+- **Docker Containerization** for easy deployment
+- **TypeScript** for type safety
+- **Input Validation** with class-validator
+- **Environment Configuration** with dotenv
+- **Testing** with Jest
 
-- **RESTful API** with CRUD operations for cats management
+## 🛠️ Tech Stack
 
-- **JWT Authentication** with secure login/register endpoints <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-
-- **PostgreSQL Database** with Prisma ORM <p align="center">
-
-- **Docker Containerization** for easy deployment<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-
-- **TypeScript** for type safety<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-
-- **Input Validation** with class-validator<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-
-- **Environment Configuration** with dotenv<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-
-- **Rate Limiting** middleware<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-
-- **Logging** middleware<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-
-- **Role-based Guards** for protected routes<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg" alt="Donate us"/></a>
-
-## 🛠️ Tech Stack <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-
-<a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow" alt="Follow us on Twitter"></a>
-
-- **Framework**: NestJS</p>
-
-- **Language**: TypeScript <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-
-- **Database**: PostgreSQL (via Prisma Accelerate) [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-- **ORM**: Prisma
-
-- **Authentication**: JWT## Description
-
+- **Framework**: NestJS 11.0.1
+- **Language**: TypeScript 5.7.3
+- **Database**: PostgreSQL
+- **ORM**: Prisma 6.19.0
+- **Authentication**: JWT (@nestjs/jwt 11.0.1)
+- **Password Hashing**: bcrypt 6.0.0
+- **Validation**: class-validator & class-transformer
 - **Containerization**: Docker & Docker Compose
-
-- **Testing**: Jest[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
+- **Testing**: Jest 29.7.0
 - **Linting**: ESLint with TypeScript
-
-## Project setup
 
 ## 📁 Project Structure
 
-````bash
-
-```$ npm install
-
-project2/```
-
+```
+nest-rms/
 ├── src/
-
-│   ├── auth/           # Authentication module (JWT, guards)## Compile and run the project
-
-│   ├── cats/           # Cats module (CRUD operations)
-
-│   ├── users/          # Users module```bash
-
-│   ├── prisma/         # Prisma service# development
-
-│   └── main.ts         # Application entry point$ npm run start
-
+│   ├── auth/           # Authentication module (JWT, guards, role-based access)
+│   ├── customer/       # Customer management module
+│   ├── table/          # Table management module
+│   ├── users/          # User/Staff management module
+│   ├── prisma/         # Prisma service
+│   └── main.ts         # Application entry point
 ├── prisma/
-
-│   ├── schema.prisma   # Database schema# watch mode
-
-│   └── migrations/     # Database migrations$ npm run start:dev
-
+│   ├── schema.prisma   # Database schema (users, customers, tables)
+│   └── migrations/     # Database migrations
 ├── docker-compose.yml  # Docker configuration
+├── Dockerfile          # Container configuration
+└── .env                # Environment variables
+```
 
-├── Dockerfile         # Container configuration# production mode
+## 📊 Database Schema
 
-└── .env               # Environment variables$ npm run start:prod
+### Users (Staff)
 
-````
+- Roles: ADMIN, WAITER, CHEF, CASHIER
+- Fields: id, name, email, password, role, timestamps
 
-## 🐳 Quick Start with Docker (Recommended)## Run tests
+### Customers
 
-### Prerequisites```bash
+- Fields: id, name, phone, email, address, timestamps
 
-# unit tests
+### Tables
 
-- Docker installed on your machine$ npm run test
+- Status: AVAILABLE, OCCUPIED, RESERVED
+- Fields: id, tableNo, capacity, status, timestamps
 
+## 🐳 Quick Start with Docker (Recommended)
+
+### Prerequisites
+
+- Docker installed on your machine
 - Docker Compose installed
 
-# e2e tests
+## Project Setup
 
 ### 1. Clone the Repository$ npm run test:e2e
 
@@ -122,70 +102,51 @@ If you are looking for a cloud-based platform to deploy your NestJS application,
 
 # Database Configuration```bash
 
-DATABASE_URL="your-postgresql-connection-string"$ npm install -g @nestjs/mau
+### 1. Clone the repository
 
-$ mau deploy
-
-# JWT Configuration```
-
-JWT_SECRET=your-super-secret-jwt-key-here
-
-With Mau, you can deploy your application in just a few clicks, allowing you to focus on building features rather than managing infrastructure.
-
-# API Configuration
-
-API_KEY=your-api-key-here## Resources
-
-````
-
-Check out a few resources that may come in handy when working with NestJS:
-
-> **Note**: Replace the values with your actual configuration. For DATABASE_URL, you can use Prisma Accelerate or any PostgreSQL connection string.
-
-- Visit the [NestJS Documentation](https://docs.nestjs.com) to learn more about the framework.
-
-### 3. Run with Docker Compose- For questions and support, please visit our [Discord channel](https://discord.gg/G7Qnnhy).
-
-- To dive deeper and get more hands-on experience, check out our official video [courses](https://courses.nestjs.com/).
-
-```bash- Deploy your application to AWS with the help of [NestJS Mau](https://mau.nestjs.com) in just a few clicks.
-
-# Build and start the application- Visualize your application graph and interact with the NestJS application in real-time using [NestJS Devtools](https://devtools.nestjs.com).
-
-docker-compose up --build -d- Need help with your project (part-time to full-time)? Check out our official [enterprise support](https://enterprise.nestjs.com).
-
-- To stay in the loop and get updates, follow us on [X](https://x.com/nestframework) and [LinkedIn](https://linkedin.com/company/nestjs).
-
-# Check if the container is running- Looking for a job, or have a job to offer? Check out our official [Jobs board](https://jobs.nestjs.com).
-
-docker-compose ps
-
-## Support
-
-# View logs
-
-docker-compose logs appNest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
-
+```bash
+git clone <repository-url>
+cd nest-rms
 ```
 
-## Stay in touch
+### 2. Set up environment variables
+
+Create a `.env` file in the root directory:
+
+```env
+# Database Configuration
+DATABASE_URL="postgresql://username:password@localhost:5432/rms_db"
+
+# JWT Configuration
+JWT_SECRET=your-super-secret-jwt-key-here
+
+# Optional: API Configuration
+API_KEY=your-api-key-here
+```
+
+> **Note**: Replace the values with your actual configuration.
+
+### 3. Run with Docker Compose
+
+```bash
+# Build and start the application
+docker-compose up --build -d
+
+# Check if the container is running
+docker-compose ps
+
+# View logs
+docker-compose logs app
+```
 
 ### 4. Access the Application
 
-- Author - [Kamil Myśliwiec](https://twitter.com/kammysliwiec)
-
-The API will be available at: `http://localhost:3000`- Website - [https://nestjs.com](https://nestjs.com/)
-
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+The API will be available at: `http://localhost:3000`
 
 ### 5. Stop the Application
 
-## License
-
 ```bash
-
-docker-compose downNest is [MIT licensed](https://github.com/nestjs/nest/blob/master/LICENSE).
-
+docker-compose down
 ```
 
 ## 🔧 Local Development Setup
@@ -214,14 +175,9 @@ npx prisma migrate dev
 npm run start:dev
 ```
 
-## 📊 Database Setup
+## 📊 Database Management
 
-This project uses Prisma with PostgreSQL. The database schema includes:
-
-- **Users**: User authentication and profile data
-- **Cats**: Cat entities with name, age, and breed information
-
-### Database Migration
+### Database Migrations
 
 ```bash
 # Create a new migration
@@ -234,37 +190,142 @@ npx prisma migrate reset
 npx prisma studio
 ```
 
+
 ## 🔐 API Endpoints
 
-### Authentication
+### Authentication Endpoints (Public)
 
-- `POST /auth/login` - User login
-- `POST /auth/register` - User registration
+#### Register
+```bash
+POST /auth/register
+Content-Type: application/json
 
-### Cats (Protected Routes)
-
-- `GET /cats` - Get all cats
-- `POST /cats` - Create a new cat
-- `GET /cats/:id` - Get cat by ID
-- `PUT /cats/:id` - Update cat
-- `DELETE /cats/:id` - Delete cat
-
-### Usage Examples
+{
+  "name": "John Doe",
+  "email": "john@example.com",
+  "password": "password123",
+  "role": "WAITER"  // Options: ADMIN, WAITER, CHEF, CASHIER
+}
+```
 
 #### Login
+```bash
+POST /auth/login
+Content-Type: application/json
 
+{
+  "email": "john@example.com",
+  "password": "password123"
+}
+
+Response:
+{
+  "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+}
+```
+
+### Customer Endpoints (Protected - Requires JWT)
+
+#### Get All Customers
+```bash
+GET /customer
+Authorization: Bearer <your_jwt_token>
+```
+
+#### Create Customer (WAITER role required)
+```bash
+POST /customer
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+
+{
+  "name": "Jane Smith",
+  "email": "jane@example.com",
+  "phone": "+1234567890",
+  "address": "123 Main St"
+}
+```
+
+#### Update Customer (WAITER role required)
+```bash
+PATCH /customer/:id
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+
+{
+  "phone": "+0987654321",
+  "address": "456 Oak Ave"
+}
+```
+
+### Table Endpoints (Protected - Requires JWT)
+
+#### Get All Tables
+```bash
+GET /table
+Authorization: Bearer <your_jwt_token>
+```
+
+#### Create Table (WAITER or CASHIER role required)
+```bash
+POST /table
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+
+{
+  "tableNo": 5,
+  "capacity": 4,
+  "status": "AVAILABLE"  // Options: AVAILABLE, OCCUPIED, RESERVED
+}
+```
+
+#### Update Table (WAITER or CASHIER role required)
+```bash
+PATCH /table/:id
+Authorization: Bearer <your_jwt_token>
+Content-Type: application/json
+
+{
+  "status": "OCCUPIED",
+  "capacity": 6
+}
+```
+
+### cURL Examples
+
+#### Login Example
 ```bash
 curl -X POST http://localhost:3000/auth/login \
   -H "Content-Type: application/json" \
-  -d '{"username": "john_doe", "password": "password123"}'
+  -d '{"email": "john@example.com", "password": "password123"}'
 ```
 
-#### Access Protected Route
-
+#### Create Customer (with JWT)
 ```bash
-curl -X GET http://localhost:3000/cats \
-  -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
+curl -X POST http://localhost:3000/customer \
+  -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"name": "Jane Smith", "email": "jane@example.com", "phone": "+1234567890"}'
 ```
+
+## 🔒 Role-Based Access Control
+
+The system implements role-based authorization:
+
+- **Public Routes**: `/auth/login`, `/auth/register`
+- **Protected Routes (Any authenticated user)**:
+  - `GET /customer`, `GET /table`
+- **WAITER Role**:
+  - Create/Update customers
+  - Create/Update tables
+- **CASHIER Role**:
+  - Create/Update tables
+- **ADMIN Role**:
+  - Full access to all endpoints
+- **CHEF Role**:
+  - Currently view-only access
+
+
 
 ## 🧪 Testing
 
@@ -277,6 +338,23 @@ npm run test:e2e
 
 # Run tests with coverage
 npm run test:cov
+
+# Run tests in watch mode
+npm run test:watch
+```
+
+## 📝 Available Scripts
+
+```bash
+npm run start          # Start production server
+npm run start:dev      # Start development server with hot reload
+npm run start:debug    # Start server in debug mode
+npm run build          # Build the application
+npm run test           # Run unit tests
+npm run test:e2e       # Run end-to-end tests
+npm run test:cov       # Run tests with coverage
+npm run lint           # Run ESLint
+npm run format         # Format code with Prettier
 ```
 
 ## 🚀 Deployment
@@ -284,7 +362,7 @@ npm run test:cov
 ### Using Docker in Production
 
 1. **Clone the repository** on your production server
-2. **Set up environment variables** in `.env` file
+2. **Set up environment variables** in `.env` file with secure values
 3. **Run the application**:
    ```bash
    docker-compose up --build -d
@@ -294,22 +372,9 @@ npm run test:cov
 
 Make sure to set secure values for:
 
-- `JWT_SECRET`: Use a strong, random secret key
+- `JWT_SECRET`: Use a strong, random secret key (minimum 32 characters)
 - `DATABASE_URL`: Your production PostgreSQL connection string
-- `API_KEY`: Your production API key
-
-## 📝 Available Scripts
-
-```bash
-npm run start          # Start production server
-npm run start:dev      # Start development server with hot reload
-npm run start:debug    # Start server in debug mode
-npm run build          # Build the application
-npm run test           # Run tests
-npm run test:e2e       # Run end-to-end tests
-npm run lint           # Run ESLint
-npm run format         # Format code with Prettier
-```
+- `NODE_ENV`: Set to `production`
 
 ## 🔍 Monitoring and Logs
 
@@ -343,14 +408,12 @@ curl http://localhost:3000
 ### Common Issues
 
 1. **Port 3000 already in use**
-
    ```bash
    # Find and kill process using port 3000
    lsof -ti:3000 | xargs kill -9
    ```
 
 2. **Docker build fails**
-
    ```bash
    # Clean Docker cache and rebuild
    docker system prune -a
@@ -359,21 +422,47 @@ curl http://localhost:3000
 
 3. **Database connection issues**
    - Verify your `DATABASE_URL` in `.env`
-   - Ensure your database is accessible
-   - Check Prisma connection with `npx prisma db pull`
+   - Ensure PostgreSQL is running
+   - Check database credentials and host
+   - Test connection with `npx prisma db pull`
 
 4. **JWT Token issues**
    - Ensure `JWT_SECRET` is set in `.env`
-   - Check token expiration (default: 180 seconds)
+   - Check token expiration settings
+   - Verify token format in Authorization header: `Bearer <token>`
 
-## 📞 Support
+5. **Prisma migration errors**
+   ```bash
+   # Reset database and migrations (development only)
+   npx prisma migrate reset
 
-If you encounter any issues or have questions, please:
+   # Apply migrations
+   npx prisma migrate deploy
+   ```
 
-1. Check the troubleshooting section above
-2. Review the application logs
-3. Create an issue in the repository
+6. **Role-based access denied**
+   - Verify user role in database
+   - Check if JWT token includes correct user information
+   - Ensure guards are properly configured
+
+## 📚 Resources
+
+- [NestJS Documentation](https://docs.nestjs.com)
+- [Prisma Documentation](https://www.prisma.io/docs)
+- [PostgreSQL Documentation](https://www.postgresql.org/docs/)
+- [JWT.io](https://jwt.io) - JWT debugger
+
+## 📄 License
+
+This project is licensed under the UNLICENSED license.
+
+## 👥 Author
+
+Restaurant Management System built with NestJS, TypeScript, and Prisma.
 
 ---
 
+**Built with ❤️ using NestJS**
+
 **Happy Coding!** 🚀
+````
