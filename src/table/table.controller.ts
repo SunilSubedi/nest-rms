@@ -4,9 +4,11 @@ import { AuthGuard } from 'src/auth/auth.guard';
 import { TableDTO } from './dto/table.dto';
 import { RoleGuard } from 'src/auth/gaurd/role.guard';
 import { Roles } from 'src/auth/gaurd/roles.decorator';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 
 @Controller('table')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 export class TableController {
 

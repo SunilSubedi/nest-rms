@@ -5,8 +5,10 @@ import { CustomerService } from './customer.service';
 import { RoleGuard } from 'src/auth/gaurd/role.guard';
 import { Roles } from 'src/auth/gaurd/roles.decorator';
 import { CustomerDTO } from './dto/customer.dto';
+import { ApiBearerAuth } from '@nestjs/swagger';
 
 @Controller('customer')
+@ApiBearerAuth()
 @UseGuards(AuthGuard)
 export class CustomerController {
     constructor(private readonly customerService: CustomerService){}
