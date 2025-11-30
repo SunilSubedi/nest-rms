@@ -10,9 +10,10 @@ import { UsersModule } from './users/users.module';
 import { PrismaModule } from './prisma/prisma.module';
 import { CustomerModule } from './customer/customer.module';
 import { TableModule } from './table/table.module';
+import { MenuItemsModule } from './menu-items/menu-items.module';
 
 @Module({
-  imports: [ConfigModule.forRoot( { isGlobal: true}), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule],
+  imports: [ConfigModule.forRoot( { isGlobal: true}), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule, MenuItemsModule],
   controllers: [AppController],
   providers: [AppService],
 })
