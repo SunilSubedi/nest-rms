@@ -11,9 +11,11 @@ import { PrismaModule } from './prisma/prisma.module';
 import { CustomerModule } from './customer/customer.module';
 import { TableModule } from './table/table.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
+import { PasswordResetModule } from './password-reset/password-reset.module';
+import { EmailModule } from './email/email.module';
 
 @Module({
-  imports: [ConfigModule.forRoot( { isGlobal: true}), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule, MenuItemsModule],
+  imports: [ConfigModule.forRoot( { isGlobal: true}), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule, MenuItemsModule, PasswordResetModule, EmailModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -1,4 +1,4 @@
-import { HttpException, Injectable } from '@nestjs/common';
+import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 //import { users } from './mock-data/users.mock.data';
 import { User } from './interface/users.interface';
 import { PrismaService } from 'src/prisma/prisma.service';

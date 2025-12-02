@@ -6,6 +6,8 @@ import { UsersModule } from 'src/users/users.module';
 import { JwtModule } from '@nestjs/jwt';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { RoleGuard } from './gaurd/role.guard';
+import { PasswordResetModule } from 'src/password-reset/password-reset.module';
+import { EmailModule } from 'src/email/email.module';
 
 @Module({
   imports:[
@@ -24,6 +26,8 @@ import { RoleGuard } from './gaurd/role.guard';
       },
       inject: [ConfigService],
     }),
+    PasswordResetModule,
+    EmailModule
   ],
   controllers: [AuthController],
   providers: [AuthService, AuthGuard, RoleGuard],

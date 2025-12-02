@@ -53,6 +53,14 @@ model meunItems {
   updatedAt   DateTime @updatedAt
 }
 
+model passwordResets {
+  id        Int      @id @default(autoincrement())
+  token     String
+  email     String
+  expiry    DateTime
+  createdAt DateTime @default(now())
+}
+
 enum Role {
   ADMIN
   WAITER

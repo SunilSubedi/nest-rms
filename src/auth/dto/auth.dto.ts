@@ -28,3 +28,9 @@ export class RegisterDto  extends SignInDto{
     role: 'WAITER' | 'ADMIN' = 'WAITER';
 
 }
+
+
+export class ResetPasswordRequestDto {
+    @IsEmail()
+    email: string
+}

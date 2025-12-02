@@ -1,6 +1,6 @@
 import { Controller, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { SignInDto } from './dto/auth.dto';
+import { ResetPasswordRequestDto, SignInDto } from './dto/auth.dto';
 import { Post, Body, Get } from '@nestjs/common';
 import { RegisterDto } from './dto/auth.dto';
 import { UsersService } from 'src/users/users.service';
@@ -29,6 +29,14 @@ export class AuthController {
         return this.userService.registerUser(registerDto);
 
     }
+
+
+    @Post('password-reset-request')
+    passResetRequest(@Body() email: ResetPasswordRequestDto){
+        return this.authService.passResetRequest(email);
+
+    }
+
 
 
 }
