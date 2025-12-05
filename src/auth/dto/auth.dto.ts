@@ -34,3 +34,18 @@ export class ResetPasswordRequestDto {
     @IsEmail()
     email: string
 }
+
+
+export class ResetPasswordDto {
+     @IsString()
+     @MinLength(6)
+     password: string;
+
+
+     @IsString()
+     token: string;
+
+
+     @IsEmail()
+     email: string;
+}

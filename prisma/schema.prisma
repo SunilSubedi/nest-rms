@@ -55,8 +55,8 @@ model meunItems {
 
 model passwordResets {
   id        Int      @id @default(autoincrement())
-  token     String
-  email     String
+  tokenHash String
+  email     String   @unique
   expiry    DateTime
   createdAt DateTime @default(now())
 }
