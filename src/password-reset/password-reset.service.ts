@@ -7,26 +7,49 @@ export class PasswordResetService {
 
             constructor(private readonly prisma: PrismaService){}
 
-    async createResetToken(data:PasswordResetInterface): Promise<boolean>
+    async createResetToken(data:PasswordResetInterface)
     {
-        try
-        {
+        
 
-            await this.prisma.passwordResets.create({
-                data:{
-                    token:data.hash,
-                    email:data.email,
-                    expiry: new Date(Date.now() + 1000 * 60 * 5),// 5 minutes
+        //   return  await this.prisma.passwordResets.create({
+        //         data:{
+        //             token:data.hash,
+        //             email:data.email,
+        //             expiry: new Date(Date.now() + 1000 * 60 * 5),// 5 minutes
                     
-                }
-            });
+        //         }
+        //     });
 
-            return true;
+        
+        return await this.prisma.passwordResets.upsert({
+             where: {email: data.email},
+             update:{
+                tokenHash: data.hash,
+                expiry: new Date( Date.now() + 5 * 60 * 1000)
 
-        }catch(error)
-        {
-                throw new HttpException(error, 502)
-        }
+             },
+             create:{
+                 tokenHash: data.hash,
+                 email: data.email,
+                 expiry: new Date( Date.now() + 5 * 60 * 1000)
+             }
+        })
+
+
     }        
+    async findToken(email: string)
+    {
+       return await this.prisma.passwordResets.findFirstOrThrow({
+            where:{
+                email,
+            }
+           });
+
+
+    }      
+           
+
+
+      
 
 }

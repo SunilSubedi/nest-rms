@@ -50,6 +50,22 @@ export class UsersService {
 
 
 
+    async updatePassword(email:string, password:string)
+    {
+        const hassPassword =  await bcrypt.hash(password,10)
+        return  await this.prismaService.users.update({
+                where: {
+                    email,
+                },
+                data:{
+                    password: hassPassword
+                }
+            })
+
+    }
+
+
+
 
 
 }

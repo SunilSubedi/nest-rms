@@ -1,9 +1,11 @@
-import { HttpException, Injectable, UnauthorizedException } from '@nestjs/common';
+import { HttpException, Injectable, NotFoundException, UnauthorizedException } from '@nestjs/common';
 import { UsersService } from '../users/users.service';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { randomBytes } from 'crypto';
 import { PasswordResetService } from 'src/password-reset/password-reset.service';
+import { EmailService } from 'src/email/email.service';
+import { BadRequestException } from '@nestjs/common';
 
 
 @Injectable()
@@ -11,7 +13,8 @@ export class AuthService {
      constructor(
         private readonly usersService: UsersService,
         private jwtService: JwtService,
-        private passwordResetService: PasswordResetService
+        private passwordResetService: PasswordResetService,
+        private emailService: EmailService
     ) {}
 
      async signIn(email: string, password: string): Promise<{access_token: string}> {
@@ -50,39 +53,59 @@ export class AuthService {
      }
 
    async passResetRequest({email}:any){
-       try
-       {
          console.log(email)
          const user =  await this.usersService.findOne(email);
-         if(user)
+         if(!user)
          { 
+             throw new NotFoundException("User Not Found")
+         }
          const token = randomBytes(32).toString("hex")
          console.log("Plain token", token);
-         const hash = await bcrypt.hash(token,20);
+         const hash = await bcrypt.hash(token,10);
          
          const sendData = {
             email,
             hash
          }
-         if(await this.passwordResetService.createResetToken(sendData))
-         {
+       await this.passwordResetService.createResetToken(sendData)
+         
              
-             return {
-                "token":token
-             }
-         }  
-       }else
+           await  this.emailService.sendResetPasswordEmail(email, token)
+           return { message: "Reset email sent" };
+            
+      
+
+
+   }  
+
+
+
+   async passwordReset(data: any)
+   {
+       try
        {
-          throw new Error("Cannot Find a User");
-       }
+               const { token, password, email} = data;
+               console.log( token, password)
+               const passReset =  await this.passwordResetService.findToken(email)
+
+               const isValid = await bcrypt.compare(token, passReset.tokenHash)
+              console.log(email);
 
 
+            if (!isValid || passReset.expiry < new Date(Date.now())) {
+              throw new BadRequestException("Invalid or expired token");
+              }
+
+                return await this.usersService.updatePassword(email,password)
+               
+         
+         
 
        }catch(error)
        {
-            throw new HttpException(error, 400)
+          throw new HttpException(error, 400)
        }
-   }  
+   }
     
 
 
