@@ -34,9 +34,9 @@ export class UsersService {
 
             const data = { ...user, password: hashedPassword };
 
-            console.log('Registering new user:', data);
+            //console.log('Registering new user:', data);
 
-            await this.prismaService.users.create({
+           return await this.prismaService.users.create({
                 data
             })
         }

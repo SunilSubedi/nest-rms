@@ -1,3 +1,4 @@
+import { Exclude } from "class-transformer";
 import { IsEmail, IsEnum, IsNumber, IsOptional, IsString, Min, MinLength } from "class-validator";
 
 export class SignInDto {
@@ -30,22 +31,44 @@ export class RegisterDto  extends SignInDto{
 }
 
 
+export class RegisterOutputDto {
+     @Exclude()
+     password: string;
+
+     constructor(partial: Partial<RegisterOutputDto>)
+     {
+         Object.assign(this, partial)
+     }
+}
+
+
 export class ResetPasswordRequestDto {
     @IsEmail()
     email: string
 }
 
 
-export class ResetPasswordDto {
+export class ResetPasswordInputDto {
      @IsString()
      @MinLength(6)
      password: string;
 
 
-     @IsString()
-     token: string;
+    
+     
+}
+
+export class ResetPasswordOutputDto {
+
+    @Exclude()
+    password: string;
 
 
-     @IsEmail()
-     email: string;
+    constructor( partial: Partial<ResetPasswordOutputDto>)
+    {
+         Object.assign(this, partial)
+
+    }
+
+
 }

@@ -1,10 +1,12 @@
-import { Controller, HttpStatus, HttpCode, UseGuards } from '@nestjs/common';
+import { Controller, HttpStatus, HttpCode, UseGuards, UseInterceptors, ClassSerializerInterceptor, Res, Req } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { ResetPasswordDto, ResetPasswordRequestDto, SignInDto } from './dto/auth.dto';
+import { RegisterOutputDto, ResetPasswordInputDto, ResetPasswordOutputDto, ResetPasswordRequestDto, SignInDto } from './dto/auth.dto';
 import { Post, Body, Get, Patch } from '@nestjs/common';
 import { RegisterDto } from './dto/auth.dto';
 import { UsersService } from 'src/users/users.service';
 import { AuthGuard } from './auth.guard';
+import  type { Response } from 'express';
+import cookieParser from 'cookie-parser';
 
 
 
@@ -18,15 +20,41 @@ export class AuthController {
     
 
     @Post('login')
-    signIn(@Body() signInDto: SignInDto){
-        return this.authService.signIn(signInDto.email, signInDto.password); 
+    async signIn(@Body() signInDto: SignInDto,@Res({ passthrough: true}) res: Response){
+        const {access_token } = await this.authService.signIn(signInDto.email, signInDto.password); 
+
+        res.cookie('token', access_token, {
+              httpOnly: true,// http only cookes for security.
+              secure: false, //work for http connection if true https
+              sameSite: 'lax'
+
+        })
+
+        return {
+
+            "message":"Signed in Successfully"
+        }
+
+
     } 
 
 
-    @Post('register')
-    register(@Body() registerDto: RegisterDto){
+    @Post('logout')
+    logout(@Res ({ passthrough: true}) res: Response){
 
-        return this.userService.registerUser(registerDto);
+        res.clearCookie('token')
+
+        return {
+            "message":"Signed Out Successfully"
+        }
+    }
+
+
+    @Post('register')
+    @UseInterceptors(ClassSerializerInterceptor)
+    async register(@Body() registerDto: RegisterDto){
+
+        return new RegisterOutputDto( await this.userService.registerUser(registerDto));
 
     }
 
@@ -37,11 +65,12 @@ export class AuthController {
 
     }
 
-
+    @UseInterceptors(ClassSerializerInterceptor)
     @Patch('password-reset')
-    passReset(@Body() resetData:ResetPasswordDto)
+    async passReset(@Body() resetData:ResetPasswordInputDto)
     {
-         return this.authService.passwordReset(resetData)
+         const data = await this.authService.passwordReset(resetData);
+         return new ResetPasswordOutputDto(data) 
     }
 
 
