@@ -12,8 +12,7 @@ datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
 }
-
-model users {
+model User {
   id        Int      @id @default(autoincrement())
   name      String
   email     String   @unique
@@ -21,9 +20,11 @@ model users {
   role      Role     @default(WAITER)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  orders Order[] @relation("WaiterOrders")
 }
 
-model customers {
+model Customer {
   id        Int      @id @default(autoincrement())
   name      String
   phone     String?  @unique
@@ -31,18 +32,22 @@ model customers {
   address   String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  orders Order[] @relation("CustomerOrders")
 }
 
-model table {
+model Table {
   id        Int         @id @default(autoincrement())
   tableNo   Int         @unique
   capacity  Int
   status    TableStatus @default(AVAILABLE)
   createdAt DateTime    @default(now())
   updatedAt DateTime    @updatedAt
+
+  orders Order[] @relation("HistoricalOrders")
 }
 
-model meunItems {
+model MenuItem {
   id          Int      @id @default(autoincrement())
   name        String
   description String
@@ -51,14 +56,51 @@ model meunItems {
   imageUrl    String?
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+
+  orderItems OrderItem[]
 }
 
-model passwordResets {
+model PasswordResets {
   id        Int      @id @default(autoincrement())
   tokenHash String
   email     String   @unique
   expiry    DateTime
   createdAt DateTime @default(now())
+}
+
+model Order {
+  id         Int      @id @default(autoincrement())
+  tableId    Int
+  waiterId   Int
+  customerId Int?
+  status     OrderStatus @default(PENDING)
+  total      Float       @default(0)
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+
+  table      Table       @relation("HistoricalOrders",fields: [tableId], references: [id])
+  waiter     User        @relation("WaiterOrders", fields: [waiterId], references: [id])
+  customer   Customer?   @relation("CustomerOrders", fields: [customerId], references: [id])
+
+  orderItems OrderItem[]
+}
+
+model OrderItem {
+  id         Int      @id @default(autoincrement())
+  orderId    Int
+  menuItemId Int
+  quantity   Int
+  price      Float
+
+  order     Order     @relation(fields: [orderId], references: [id])
+  menuItem  MenuItem  @relation(fields: [menuItemId], references: [id])
+}
+
+enum OrderStatus {
+  PENDING
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
 }
 
 enum Role {

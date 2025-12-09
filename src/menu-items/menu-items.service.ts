@@ -9,7 +9,7 @@ export class MenuItemsService {
     async findAll(){
         try{
 
-            return  await this.prisma.meunItems.findMany();
+            return  await this.prisma.menuItem.findMany();
 
         }catch(error)
         {
@@ -27,7 +27,7 @@ export class MenuItemsService {
         console.log(menuItemsData)
         try
         {
-                await this.prisma.meunItems.create({
+                await this.prisma.menuItem.create({
                     data: {
                         price: Number(price),
                         ...menuItems

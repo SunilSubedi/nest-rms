@@ -54,6 +54,14 @@ export class ResetPasswordInputDto {
      password: string;
 
 
+     @IsEmail()
+     email: string;
+
+
+     @IsString()
+     token:string;
+
+
     
      
 }

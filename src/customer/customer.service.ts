@@ -7,7 +7,7 @@ export class CustomerService {
 
     async find(){
        try{
-            return await  this.prisma.customers.findMany()
+            return await  this.prisma.customer.findMany()
        }catch(error)
        {
            throw new HttpException('Error Finding Customers', 502)
@@ -19,7 +19,7 @@ export class CustomerService {
 
         try
         {
-            await this.prisma.customers.create({
+            await this.prisma.customer.create({
                  data:{
                      ...custData
                  }
@@ -41,7 +41,7 @@ export class CustomerService {
         
         try
         {
-            await this.prisma.customers.update({
+            await this.prisma.customer.update({
                  where :{
                     id,
                  },

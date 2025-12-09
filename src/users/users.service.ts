@@ -3,15 +3,20 @@ import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import { User } from './interface/users.interface';
 import { PrismaService } from 'src/prisma/prisma.service';
 import * as bcrypt from 'bcrypt';
+import { EventEmitter2 } from '@nestjs/event-emitter';
 
 @Injectable()
 export class UsersService {
-    constructor( private prismaService: PrismaService){}
+    constructor( 
+        private prismaService: PrismaService,
+        private eventEmitter: EventEmitter2
+
+    ){}
    // private readonly usersArray = users;
 
     async findOne(email: string): Promise<User> {
         try{
-             const user = await this.prismaService.users.findUnique({
+             const user = await this.prismaService.user.findUnique({
                 where: { email }
              });
             if( !user ){
@@ -36,9 +41,17 @@ export class UsersService {
 
             //console.log('Registering new user:', data);
 
-           return await this.prismaService.users.create({
+           const newUser = await this.prismaService.user.create({
                 data
+            });
+           
+            // create a event to send user email
+            this.eventEmitter.emit('user.registered', {
+                 id: user.id,
+                 email: user.email
             })
+            
+            return newUser;
         }
         catch(error){
             throw new HttpException('Unable to register user',501);
@@ -53,7 +66,7 @@ export class UsersService {
     async updatePassword(email:string, password:string)
     {
         const hassPassword =  await bcrypt.hash(password,10)
-        return  await this.prismaService.users.update({
+        return  await this.prismaService.user.update({
                 where: {
                     email,
                 },

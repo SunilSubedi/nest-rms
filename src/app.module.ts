@@ -13,9 +13,10 @@ import { TableModule } from './table/table.module';
 import { MenuItemsModule } from './menu-items/menu-items.module';
 import { PasswordResetModule } from './password-reset/password-reset.module';
 import { EmailModule } from './email/email.module';
+import { EventEmitterModule } from '@nestjs/event-emitter';
 
 @Module({
-  imports: [ConfigModule.forRoot( { isGlobal: true}), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule, MenuItemsModule, PasswordResetModule, EmailModule],
+  imports: [ConfigModule.forRoot( { isGlobal: true}), EventEmitterModule.forRoot(), AuthModule, UsersModule, PrismaModule, CustomerModule, TableModule, MenuItemsModule, PasswordResetModule, EmailModule],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -88,6 +88,18 @@ export class EmailService {
   }
 
 
+ sendUserRegisterEmail(payload: any)
+ {
+     const { email } = payload;
+     const mailObj = {
+        subject:"User Registeration",
+        to: [email],
+        html: `<p>Dear ${email},</p></br><p> Thank you for registering with us. </p>`,
+     }
+
+    return  this.sendMail(mailObj)
+ } 
+
 
 
 
