@@ -47,7 +47,7 @@ export class AuthService {
              
         
          }catch (error) {
-            throw new UnauthorizedException();
+            throw new UnauthorizedException("Invalide Email Address or Password");
         }
 
      }
