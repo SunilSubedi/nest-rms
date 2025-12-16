@@ -42,7 +42,11 @@ export class AuthController {
     @Post('logout')
     logout(@Res ({ passthrough: true}) res: Response){
 
-        res.clearCookie('token')
+        res.clearCookie('token',{
+            httpOnly: true,
+            secure: false,
+            sameSite: 'lax',
+        })
 
         return {
             "message":"Signed Out Successfully"
@@ -57,6 +61,9 @@ export class AuthController {
         return new RegisterOutputDto( await this.userService.registerUser(registerDto));
 
     }
+
+
+   
 
 
     @Post('password-reset-request')

@@ -5,7 +5,10 @@ import { PrismaService } from 'src/prisma/prisma.service';
 @Injectable()
 export class TableService {
 
-    constructor(private readonly prisma: PrismaService){}
+    constructor(
+        private readonly prisma: PrismaService,
+       
+    ){}
 
     async findAll(){
          return await this.prisma.table.findMany();
@@ -19,7 +22,11 @@ export class TableService {
                  data: {
                     ...tableData
                  }
+            
+                 
             })
+
+
 
          }catch(error)
          {
@@ -46,6 +53,21 @@ export class TableService {
             throw new HttpException("Cannot Update Table", 502);
         }
 
+    }
+
+
+    async findTable(id: number){
+        
+        try{
+        return await this.prisma.table.findUnique({
+             where:{
+                tableNo: id,
+             },
+        })
+      }catch(error)
+      {
+         throw new HttpException("Cannot Find Table",500);
+      }
     }
 
 
